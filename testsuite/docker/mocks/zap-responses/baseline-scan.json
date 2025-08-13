@@ -1,0 +1,47 @@
+{
+  "scan_id": "mock-baseline-scan-001",
+  "status": "completed",
+  "target": "http://test-target/",
+  "start_time": "2025-01-01T12:00:00Z",
+  "end_time": "2025-01-01T12:05:00Z",
+  "duration": 300,
+  "alerts": [
+    {
+      "id": "10021",
+      "name": "X-Content-Type-Options Header Missing",
+      "risk": "Low",
+      "confidence": "Medium",
+      "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'.",
+      "solution": "Ensure that the application/web server sets the Content-Type header appropriately.",
+      "instances": [
+        {
+          "uri": "http://test-target/",
+          "method": "GET",
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": "10020",
+      "name": "X-Frame-Options Header Not Set",
+      "risk": "Medium",
+      "confidence": "Medium", 
+      "description": "X-Frame-Options header is not included in the HTTP response.",
+      "solution": "Most modern Web browsers support the X-Frame-Options HTTP header.",
+      "instances": [
+        {
+          "uri": "http://test-target/",
+          "method": "GET",
+          "evidence": ""
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "high": 0,
+    "medium": 1,
+    "low": 1,
+    "informational": 0,
+    "total": 2
+  }
+}

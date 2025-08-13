@@ -1,0 +1,174 @@
+{
+  "computers": [
+    {
+      "Name": "DC01.TESTLAB.LOCAL",
+      "PrimaryGroupSID": "S-1-5-21-3842939050-3880317879-2865463114-515",
+      "Properties": {
+        "domain": "TESTLAB.LOCAL",
+        "name": "DC01@TESTLAB.LOCAL",
+        "distinguishedname": "CN=DC01,OU=Domain Controllers,DC=testlab,DC=local",
+        "domainsid": "S-1-5-21-3842939050-3880317879-2865463114",
+        "highvalue": true,
+        "samaccountname": "DC01$",
+        "haslaps": false,
+        "pwdlastset": 1640995200,
+        "lastlogon": 1640995200,
+        "enabled": true,
+        "unconstraineddelegation": false,
+        "trustedtoauth": false,
+        "allowedtodelegate": []
+      },
+      "LocalAdmins": [
+        {
+          "Name": "TESTLAB.LOCAL\\Domain Admins",
+          "Type": "Group"
+        }
+      ],
+      "RemoteDesktopUsers": [],
+      "DcomUsers": [],
+      "PSRemoteUsers": [],
+      "Sessions": [
+        {
+          "UserName": "Administrator@TESTLAB.LOCAL",
+          "ComputerName": "DC01.TESTLAB.LOCAL",
+          "Weight": 1
+        }
+      ]
+    },
+    {
+      "Name": "WS01.TESTLAB.LOCAL", 
+      "PrimaryGroupSID": "S-1-5-21-3842939050-3880317879-2865463114-515",
+      "Properties": {
+        "domain": "TESTLAB.LOCAL",
+        "name": "WS01@TESTLAB.LOCAL",
+        "distinguishedname": "CN=WS01,CN=Computers,DC=testlab,DC=local",
+        "domainsid": "S-1-5-21-3842939050-3880317879-2865463114",
+        "highvalue": false,
+        "samaccountname": "WS01$",
+        "haslaps": false,
+        "pwdlastset": 1640995200,
+        "lastlogon": 1640995200,
+        "enabled": true,
+        "unconstraineddelegation": false,
+        "trustedtoauth": false,
+        "allowedtodelegate": []
+      },
+      "LocalAdmins": [
+        {
+          "Name": "TESTLAB.LOCAL\\Domain Admins",
+          "Type": "Group"
+        },
+        {
+          "Name": "JOHN.DOE@TESTLAB.LOCAL",
+          "Type": "User"
+        }
+      ],
+      "RemoteDesktopUsers": [
+        {
+          "Name": "TESTLAB.LOCAL\\Remote Desktop Users",
+          "Type": "Group"
+        }
+      ],
+      "Sessions": [
+        {
+          "UserName": "john.doe@TESTLAB.LOCAL",
+          "ComputerName": "WS01.TESTLAB.LOCAL",
+          "Weight": 2
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "Name": "ADMINISTRATOR@TESTLAB.LOCAL",
+      "PrimaryGroupSID": "S-1-5-21-3842939050-3880317879-2865463114-513",
+      "Properties": {
+        "domain": "TESTLAB.LOCAL",
+        "name": "ADMINISTRATOR@TESTLAB.LOCAL",
+        "distinguishedname": "CN=Administrator,CN=Users,DC=testlab,DC=local",
+        "domainsid": "S-1-5-21-3842939050-3880317879-2865463114",
+        "highvalue": true,
+        "samaccountname": "Administrator",
+        "hasspn": false,
+        "passwordnotreqd": false,
+        "pwdlastset": 1640995200,
+        "lastlogon": 1640995200,
+        "enabled": true,
+        "admincount": true,
+        "dontreqpreauth": false,
+        "passwordexpired": false,
+        "unconstraineddelegation": false,
+        "sensitive": false,
+        "trustedtoauth": false,
+        "allowedtodelegate": []
+      }
+    },
+    {
+      "Name": "JOHN.DOE@TESTLAB.LOCAL",
+      "PrimaryGroupSID": "S-1-5-21-3842939050-3880317879-2865463114-513",
+      "Properties": {
+        "domain": "TESTLAB.LOCAL",
+        "name": "JOHN.DOE@TESTLAB.LOCAL",
+        "distinguishedname": "CN=John Doe,CN=Users,DC=testlab,DC=local",
+        "domainsid": "S-1-5-21-3842939050-3880317879-2865463114",
+        "highvalue": false,
+        "samaccountname": "john.doe",
+        "hasspn": false,
+        "passwordnotreqd": false,
+        "pwdlastset": 1640995200,
+        "lastlogon": 1640995200,
+        "enabled": true,
+        "admincount": false,
+        "dontreqpreauth": false,
+        "passwordexpired": false,
+        "unconstraineddelegation": false,
+        "sensitive": false,
+        "trustedtoauth": false,
+        "allowedtodelegate": []
+      }
+    }
+  ],
+  "groups": [
+    {
+      "Name": "DOMAIN ADMINS@TESTLAB.LOCAL",
+      "Properties": {
+        "domain": "TESTLAB.LOCAL",
+        "name": "DOMAIN ADMINS@TESTLAB.LOCAL",
+        "distinguishedname": "CN=Domain Admins,CN=Users,DC=testlab,DC=local",
+        "domainsid": "S-1-5-21-3842939050-3880317879-2865463114",
+        "highvalue": true,
+        "samaccountname": "Domain Admins",
+        "admincount": true
+      },
+      "Members": [
+        {
+          "Name": "ADMINISTRATOR@TESTLAB.LOCAL",
+          "Type": "User"
+        }
+      ]
+    },
+    {
+      "Name": "REMOTE DESKTOP USERS@TESTLAB.LOCAL",
+      "Properties": {
+        "domain": "TESTLAB.LOCAL",
+        "name": "REMOTE DESKTOP USERS@TESTLAB.LOCAL",
+        "distinguishedname": "CN=Remote Desktop Users,CN=Builtin,DC=testlab,DC=local",
+        "domainsid": "S-1-5-21-3842939050-3880317879-2865463114",
+        "highvalue": false,
+        "samaccountname": "Remote Desktop Users",
+        "admincount": false
+      },
+      "Members": [
+        {
+          "Name": "JOHN.DOE@TESTLAB.LOCAL",
+          "Type": "User"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "type": "domains",
+    "count": 1,
+    "version": 4
+  }
+}

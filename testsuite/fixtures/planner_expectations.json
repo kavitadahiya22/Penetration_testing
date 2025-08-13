@@ -1,0 +1,137 @@
+{
+  "depth_expectations": {
+    "basic": {
+      "min_steps": 1,
+      "max_steps": 5,
+      "required_fields": ["plan_id", "steps", "target_analysis"],
+      "prohibited_tools": ["exploit", "brute_force"]
+    },
+    "standard": {
+      "min_steps": 3,
+      "max_steps": 12,
+      "required_fields": ["plan_id", "steps", "target_analysis", "risk_assessment"],
+      "allowed_simulation_only": ["sqlmap", "nikto"]
+    },
+    "advanced": {
+      "min_steps": 5,
+      "max_steps": 20,
+      "required_fields": ["plan_id", "steps", "target_analysis", "risk_assessment", "methodology"],
+      "requires_approval": ["exploit", "brute_force"]
+    },
+    "comprehensive": {
+      "min_steps": 8,
+      "max_steps": 30,
+      "required_fields": ["plan_id", "steps", "target_analysis", "risk_assessment", "methodology", "reporting"],
+      "requires_approval": ["exploit", "brute_force", "lateral_movement"]
+    }
+  },
+  "feature_expectations": {
+    "recon": {
+      "required_agents": ["recon"],
+      "expected_tools": ["nmap", "amass"],
+      "min_steps": 2,
+      "output_artifacts": ["nmap_results", "dns_enumeration"]
+    },
+    "web": {
+      "required_agents": ["web"],
+      "expected_tools": ["zap", "nikto"],
+      "optional_tools": ["sqlmap"],
+      "min_steps": 2,
+      "output_artifacts": ["zap_baseline", "nikto_scan"]
+    },
+    "vuln": {
+      "required_agents": ["web"],
+      "expected_tools": ["zap", "nikto", "sqlmap"],
+      "min_steps": 3,
+      "output_artifacts": ["vulnerability_report", "exploitation_recommendations"]
+    },
+    "creds": {
+      "required_agents": ["creds"],
+      "expected_tools": ["hydra", "cme"],
+      "min_steps": 2,
+      "simulation_required": true,
+      "output_artifacts": ["credential_analysis", "weak_passwords"]
+    },
+    "lateral": {
+      "required_agents": ["lateral"],
+      "expected_tools": ["cme", "bloodhound"],
+      "min_steps": 2,
+      "requires_domain": true,
+      "output_artifacts": ["lateral_paths", "privilege_analysis"]
+    },
+    "priv-esc": {
+      "required_agents": ["privesc"],
+      "expected_tools": ["bloodhound"],
+      "min_steps": 1,
+      "requires_domain": true,
+      "output_artifacts": ["escalation_paths", "high_value_targets"]
+    },
+    "exploit": {
+      "required_agents": ["exploit"],
+      "expected_tools": ["metasploit"],
+      "min_steps": 1,
+      "simulation_required": true,
+      "requires_approval": true,
+      "output_artifacts": ["exploit_results", "post_exploitation"]
+    }
+  },
+  "target_type_expectations": {
+    "ip_address": {
+      "pattern": "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$",
+      "applicable_features": ["recon", "creds", "exploit"],
+      "required_tools": ["nmap"]
+    },
+    "ip_range": {
+      "pattern": "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/\\d{1,2}$",
+      "applicable_features": ["recon", "creds"],
+      "required_tools": ["nmap"],
+      "max_hosts_basic": 10,
+      "max_hosts_standard": 50,
+      "max_hosts_advanced": 200
+    },
+    "domain": {
+      "pattern": "^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+      "applicable_features": ["recon", "web", "vuln"],
+      "required_tools": ["amass", "nmap"]
+    },
+    "url": {
+      "pattern": "^https?://[a-zA-Z0-9.-]+",
+      "applicable_features": ["web", "vuln"],
+      "required_tools": ["zap", "nikto"]
+    }
+  },
+  "plan_structure_expectations": {
+    "required_fields": [
+      "plan_id",
+      "tenant_id", 
+      "created_at",
+      "targets",
+      "depth",
+      "features",
+      "steps"
+    ],
+    "step_required_fields": [
+      "step_id",
+      "agent",
+      "tool",
+      "dependencies",
+      "estimated_duration",
+      "risk_level"
+    ],
+    "optional_fields": [
+      "description",
+      "methodology",
+      "risk_assessment",
+      "reporting_requirements"
+    ]
+  },
+  "validation_rules": {
+    "plan_id_format": "^plan-[a-zA-Z0-9]{8}$",
+    "tenant_id_format": "^[a-zA-Z0-9-]{3,50}$",
+    "step_id_format": "^step-\\d{1,3}$",
+    "max_total_steps": 50,
+    "max_parallel_steps": 5,
+    "required_simulation_features": ["exploit", "creds"],
+    "prohibited_without_approval": ["exploit", "brute_force", "lateral_movement"]
+  }
+}

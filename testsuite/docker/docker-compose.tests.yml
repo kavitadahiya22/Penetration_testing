@@ -1,0 +1,177 @@
+version: '3.8'
+
+networks:
+  cybrty-test:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.26.0.0/16
+
+services:
+  # Main API service (from parent project)
+  api:
+    build:
+      context: ../../PenetrationTesting/cybrty-pentest
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "8080:8000"
+    environment:
+      - OPENSEARCH_HOST=opensearch
+      - OPENSEARCH_PORT=9200
+      - OPENSEARCH_SCHEME=http
+      - OPENSEARCH_USERNAME=
+      - OPENSEARCH_PASSWORD=
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - MODEL_PROVIDER=ollama
+      - LOG_LEVEL=INFO
+    depends_on:
+      - opensearch
+      - ollama
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # OpenSearch for logging
+  opensearch:
+    image: opensearchproject/opensearch:2.12.0
+    container_name: opensearch-test
+    environment:
+      - cluster.name=cybrty-test-cluster
+      - node.name=opensearch-test-node
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # OpenSearch Dashboards
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.12.0
+    container_name: opensearch-dashboards-test
+    ports:
+      - "5602:5601"
+    expose:
+      - "5601"
+    environment:
+      - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true"
+    depends_on:
+      - opensearch
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5601/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Ollama for AI models
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-test
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Mock ZAP service for testing
+  mock-zap:
+    image: nginx:alpine
+    container_name: mock-zap
+    ports:
+      - "8090:80"
+    volumes:
+      - ./mocks/zap-responses:/usr/share/nginx/html
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Mock Metasploit RPC service
+  mock-msf:
+    image: nginx:alpine
+    container_name: mock-msf
+    ports:
+      - "8091:80"
+    volumes:
+      - ./mocks/msf-responses:/usr/share/nginx/html
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Test target web application (for safe testing)
+  test-target:
+    image: nginx:alpine
+    container_name: test-target
+    ports:
+      - "8092:80"
+    volumes:
+      - ./test-targets:/usr/share/nginx/html
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: redis-test
+    ports:
+      - "6379:6379"
+    networks:
+      - cybrty-test
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  opensearch-data:
+  ollama-data:

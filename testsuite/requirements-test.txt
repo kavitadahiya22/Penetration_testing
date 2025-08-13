@@ -1,0 +1,48 @@
+# Test requirements for cybrty-pentest test suite
+
+# Core testing framework
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-xdist>=3.3.0  # For parallel test execution
+pytest-html>=3.2.0   # For HTML reports
+pytest-cov>=4.1.0    # For coverage reports
+
+# HTTP client libraries
+aiohttp>=3.9.0
+httpx>=0.24.0
+requests>=2.31.0
+
+# OpenSearch client
+opensearch-py>=2.4.0
+
+# Data handling and validation
+pydantic>=2.5.0
+jsonschema>=4.19.0
+
+# Performance testing
+locust>=2.17.0
+
+# Utility libraries
+python-dotenv>=1.0.0
+PyYAML>=6.0.0
+faker>=19.12.0  # For generating test data
+
+# Development and code quality
+black>=23.9.0
+flake8>=6.1.0
+isort>=5.12.0
+
+# Additional testing utilities
+responses>=0.23.0  # For mocking HTTP responses
+freezegun>=1.2.0   # For mocking time
+factory-boy>=3.3.0 # For test data factories
+
+# Async testing support
+anyio>=4.0.0
+
+# JSON/data manipulation
+jq>=1.6.0
+
+# Network utilities for testing
+ipaddress  # Built-in but explicit
+dnspython>=2.4.0

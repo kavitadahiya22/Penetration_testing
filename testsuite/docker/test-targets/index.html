@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Target Application</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>Cybrty Test Target</h1>
+    <p>This is a safe test target for penetration testing validation.</p>
+    
+    <h2>Test Forms</h2>
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <input type="submit" value="Login">
+    </form>
+    
+    <h2>Test Links</h2>
+    <ul>
+        <li><a href="/admin">Admin Panel</a></li>
+        <li><a href="/api/users">API Endpoint</a></li>
+        <li><a href="/files">File Directory</a></li>
+    </ul>
+    
+    <h2>Test Parameters</h2>
+    <a href="/search?q=test">Search Test</a><br>
+    <a href="/user?id=1">User Profile</a><br>
+    
+    <script>
+        // Test JavaScript
+        console.log("Test target loaded");
+    </script>
+</body>
+</html>

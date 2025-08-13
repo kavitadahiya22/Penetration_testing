@@ -1,0 +1,28 @@
+# Test URLs for web agent testing
+# Safe targets for vulnerability scanning
+
+# Local test targets
+http://test-target/
+http://test-target/admin
+http://test-target/api/users
+http://test-target/search?q=test
+http://test-target/user?id=1
+
+# Localhost variants for safe testing
+http://127.0.0.1:8092/
+http://127.0.0.1:8092/login
+http://127.0.0.1:8092/files
+
+# Mock external services
+http://httpbin.org/get
+http://httpbin.org/post
+http://httpbin.org/status/200
+
+# Public test sites (safe for scanning)
+http://testphp.vulnweb.com/
+http://demo.testfire.net/
+
+# Invalid URLs for negative testing
+http://nonexistent.local/
+https://invalid-ssl-site.test/
+http://malformed..url/

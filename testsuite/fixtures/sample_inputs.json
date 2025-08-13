@@ -1,0 +1,191 @@
+{
+  "planner_scenarios": [
+    {
+      "name": "basic_recon_only",
+      "description": "Simple reconnaissance on a single target",
+      "input": {
+        "targets": ["10.0.1.0/24"],
+        "depth": "basic", 
+        "features": ["recon"],
+        "simulate": true,
+        "tenant_id": "test-tenant-001"
+      },
+      "expected_agents": ["recon"],
+      "expected_tools": ["nmap", "amass"],
+      "min_steps": 2,
+      "max_steps": 4
+    },
+    {
+      "name": "web_vuln_scan",
+      "description": "Web vulnerability assessment",
+      "input": {
+        "targets": ["https://test-target/", "http://testphp.vulnweb.com/"],
+        "depth": "standard",
+        "features": ["web", "vuln"],
+        "simulate": true,
+        "tenant_id": "test-tenant-002"
+      },
+      "expected_agents": ["web"],
+      "expected_tools": ["zap", "nikto", "sqlmap"],
+      "min_steps": 3,
+      "max_steps": 8
+    },
+    {
+      "name": "full_pentest_simulation",
+      "description": "Complete penetration test simulation",
+      "input": {
+        "targets": ["10.0.1.0/24", "corp.example.com", "https://app.example.com"],
+        "depth": "comprehensive",
+        "features": ["recon", "web", "vuln", "creds", "lateral", "priv-esc"],
+        "simulate": true,
+        "tenant_id": "test-tenant-003"
+      },
+      "expected_agents": ["recon", "web", "exploit", "creds", "lateral", "privesc"],
+      "expected_tools": ["nmap", "amass", "zap", "nikto", "sqlmap", "hydra", "cme", "bloodhound"],
+      "min_steps": 8,
+      "max_steps": 20
+    },
+    {
+      "name": "credentials_assessment",
+      "description": "Credential security assessment",
+      "input": {
+        "targets": ["10.0.1.0/24"],
+        "depth": "standard",
+        "features": ["recon", "creds"],
+        "simulate": true,
+        "tenant_id": "test-tenant-004"
+      },
+      "expected_agents": ["recon", "creds"],
+      "expected_tools": ["nmap", "hydra", "cme"],
+      "min_steps": 4,
+      "max_steps": 10
+    },
+    {
+      "name": "lateral_movement_analysis",
+      "description": "Active Directory lateral movement analysis",
+      "input": {
+        "targets": ["10.0.1.0/24"],
+        "depth": "advanced",
+        "features": ["recon", "creds", "lateral", "priv-esc"],
+        "simulate": true,
+        "tenant_id": "test-tenant-005",
+        "ad_domain": "testlab.local"
+      },
+      "expected_agents": ["recon", "creds", "lateral", "privesc"],
+      "expected_tools": ["nmap", "cme", "bloodhound"],
+      "min_steps": 6,
+      "max_steps": 15
+    }
+  ],
+  "run_scenarios": [
+    {
+      "name": "quick_recon_run",
+      "description": "Quick reconnaissance run",
+      "plan_input": {
+        "targets": ["127.0.0.1/32"],
+        "depth": "basic",
+        "features": ["recon"],
+        "simulate": true
+      },
+      "expected_duration_max": 300,
+      "expected_findings_min": 0,
+      "expected_status": "completed"
+    },
+    {
+      "name": "web_scan_run",
+      "description": "Web application security scan",
+      "plan_input": {
+        "targets": ["http://test-target/"],
+        "depth": "standard", 
+        "features": ["web"],
+        "simulate": true
+      },
+      "expected_duration_max": 600,
+      "expected_findings_min": 1,
+      "expected_status": "completed"
+    }
+  ],
+  "negative_scenarios": [
+    {
+      "name": "empty_targets",
+      "description": "Request with no targets",
+      "input": {
+        "targets": [],
+        "depth": "basic",
+        "features": ["recon"],
+        "simulate": true
+      },
+      "expected_error": "targets_required"
+    },
+    {
+      "name": "invalid_depth",
+      "description": "Invalid depth parameter",
+      "input": {
+        "targets": ["10.0.1.1"],
+        "depth": "invalid_depth",
+        "features": ["recon"],
+        "simulate": true
+      },
+      "expected_error": "invalid_depth"
+    },
+    {
+      "name": "malformed_target",
+      "description": "Malformed target format",
+      "input": {
+        "targets": ["not-a-valid-target"],
+        "depth": "basic",
+        "features": ["recon"],
+        "simulate": true
+      },
+      "expected_error": "invalid_target_format"
+    },
+    {
+      "name": "forbidden_network",
+      "description": "Target outside allowed networks",
+      "input": {
+        "targets": ["8.8.8.8"],
+        "depth": "basic",
+        "features": ["recon"],
+        "simulate": true
+      },
+      "expected_error": "network_not_allowed"
+    },
+    {
+      "name": "too_many_hosts",
+      "description": "Too many hosts in scope",
+      "input": {
+        "targets": ["0.0.0.0/8"],
+        "depth": "basic",
+        "features": ["recon"],
+        "simulate": true
+      },
+      "expected_error": "scope_too_large"
+    }
+  ],
+  "policy_test_scenarios": [
+    {
+      "name": "exploit_without_simulation",
+      "description": "Exploit request without simulation mode",
+      "input": {
+        "targets": ["10.0.1.1"],
+        "depth": "advanced",
+        "features": ["exploit"],
+        "simulate": false
+      },
+      "expected_policy_block": true,
+      "expected_reason": "exploitation_requires_simulation"
+    },
+    {
+      "name": "brute_force_without_approval",
+      "description": "Credential brute force without explicit approval",
+      "input": {
+        "targets": ["10.0.1.1"],
+        "depth": "advanced",
+        "features": ["creds"],
+        "simulate": false
+      },
+      "expected_policy_block": true,
+      "expected_reason": "brute_force_requires_approval"
+    }
+  ]
+}

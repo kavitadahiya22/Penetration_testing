@@ -1,0 +1,21 @@
+username,password,service,notes
+admin,admin,http,Common default credentials
+administrator,password,http,Windows default
+root,toor,ssh,Kali Linux default
+admin,123456,http,Weak password
+user,user,ftp,Generic credentials
+guest,guest,telnet,Guest account
+test,test,http,Test credentials
+admin,,http,Empty password
+admin,admin123,http,Weak admin password
+service,service,http,Service account
+backup,backup,ssh,Backup account
+oracle,oracle,oracle,Oracle default
+postgres,postgres,postgresql,PostgreSQL default
+mysql,mysql,mysql,MySQL default
+administrator,admin,rdp,Windows RDP
+user,password,smb,SMB share access
+ftp,ftp,ftp,Anonymous FTP
+anonymous,,ftp,Anonymous FTP access
+admin,P@ssw0rd,http,Complex but common
+demo,demo,http,Demo account
