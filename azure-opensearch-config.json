@@ -1,0 +1,32 @@
+{
+  "azure_opensearch": {
+    "cluster_name": "docker-cluster",
+    "version": "3.1.0",
+    "distribution": "OpenSearch",
+    "node": "cybrty-dev-ca--v1-6cc66fd748-b5dxv",
+    "endpoints": {
+      "api": "https://cybrty-dev-ca.wonderfuldune-e921120d.eastus.azurecontainerapps.io/es/",
+      "dashboard": "https://cybrty-dev-ca.wonderfuldune-e921120d.eastus.azurecontainerapps.io"
+    },
+    "indices": {
+      "vulnerabilities": "vulnerabilities",
+      "scans": "scans",
+      "reports": "reports"
+    },
+    "connection_verified": "2025-09-02",
+    "status": "operational"
+  },
+  "local_opensearch": {
+    "endpoints": {
+      "api": "http://localhost:9200",
+      "dashboard": "http://localhost:5601"
+    },
+    "status": "fallback"
+  },
+  "configuration": {
+    "dual_posting": true,
+    "primary": "azure",
+    "fallback": "local",
+    "timeout_seconds": 15
+  }
+}
